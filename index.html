@@ -4,16 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Calendario para Mocks</title>
+
+    <style>
+        .unicode-box {
+            white-space: pre-wrap; /* This preserves spaces and line breaks */
+            font-family: monospace; /* Optional: use a monospace font for better appearance */
+        }
+
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            padding: 10px;
+        }
+
+        button {
+            background-color: blue;  /* Button color */
+            color: white;            /* Text color */
+            border: none;            /* No border */
+            border-radius: 10px;     /* Rounded corners */
+            padding: 10px;           /* Padding */
+            cursor: pointer;         /* Pointer cursor on hover */
+            font-size: 16px;        /* Font size */
+            transition: background-color 0.3s; /* Smooth background change */
+        }
+    </style>
 </head>
 <body>
-
     <h2>Crear Calendario para Mocks (archivo .ics)</h2>
-    <label for="eventDescription">Texto copiado de ChatGPT:</label><br>
+
+    <p>Presiona el boton para copiar el prompt.</p>
+
+    <button onclick="copyToClipboard()">Copiar prompt para ChatGPT</button>
+
+    <p>
+        Pega el texto copiado en ChatGPT y escribe las materias que estas tomando en el Diploma.
+        <br><br>
+        Ejemplo:
+    </p>
+<p class="unicode-box">
+    ┌─────────────────────────────────────────────────────────────────────────────┐
+    │ [...]                                                                       │
+    │   DTEND;TZID=America/Bogota:20241209T140000                                 │
+    │   DESCRIPTION:Duration: 4 hours                                             │
+    │   END:VEVENT                                                                │
+    │                                                                             │
+    │   END:VCALENDAR                                                             │
+    │   "                                                                         │
+    │   End example.                                                              │
+    │                                                                             │
+    │   These are the classes I participate in, I don't take the exams of         │
+    │   any other subjects:                                                       │
+    │                                                                             │
+    │   Physics HL                                                                │
+    │   Buisness HL                                                               │
+    │   Design Tech HL                                                            │
+    │   Spanish A SL                                                              │
+    │   Math Analysis SL                                                          │
+    │   English A SL                                                              │
+    └─────────────────────────────────────────────────────────────────────────────┘
+</p>
+<p>
+Copia lo que ChatGPT te escribio y pegalo en el area de texto abajo, y presiona el boton de descargar.
+    </p>
+
+    <label for="eventDescription"><b>Texto copiado de ChatGPT:</b></label><br><br>
     <textarea id="eventDescription" placeholder="Texto copiado de ChatGPT" rows="5" cols="50"></textarea>
     <br><br>
     <button onclick="createICS()">Descargar archivo de calendario (.ics)</button>
 
+    <p>El archivo que se descarga lo vas a abrir con tu app de calendario (si estas en celular, presiona el boton de compartir y selecciona tu app de calendario). Revisa que todo este bien y ya! Ahora tienes todos tus examenes Mock en tu calendario.</p>
+
     <script>
+        function copyToClipboard() {
+            // Create a new textarea element
+            const textArea = document.createElement("textarea");
+            // Set the value of the textarea to the predetermined text
+            textArea.value = `Turn the following schedule into something I can copy-paste into a .ics file, my timezone is Bogota in 2024. Don't return anything else apart from the .icl file contents:  " | Date                  | Subjects                                      | Grade | Start         | Finish        | Duration           |
+|-----------------------|-----------------------------------------------|-------|---------------|---------------|---------------------|
+| Monday, November 25th | English A: Language & Literature HL Paper 2  | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | English A: Language & Literature SL Paper 2  | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | English B HL Paper 1                          | 11    | 7:45 am       | 9:55 am       | 1 hour 10 minutes    |
+|                       | English B HL Paper 2                          | 11    | 9:45 am       | 10:55 am      | 1 hour 10 minutes    |
+|                       | Physics HL Paper 1                           | 11    | 12:00 pm      | 2:00 pm       | 2 hours              |
+|                       | Physics SL Paper 1                           | 11    | 12:00 pm      | 1:30 pm       | 1 hour 30 minutes    |
+|                       | Psychology HL Paper 3                        | 11    | 12:00 pm      | 1:00 pm       | 1 hour               |
+| Tuesday, November 26th| Physics SL Paper 2                           | 11    | 7:45 am       | 10:15 am      | 2 hours 30 minutes   |
+|                       | Physics SL Paper 2                           | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | Business Management HL/SL Paper 2            | 11    | 10:00 am      | 11:15 am      | 1 hour 15 minutes    |
+|                       | Business Management HL/SL Paper 2            | 11    | 1:00 pm       | 2:15 pm       | 1 hour 15 minutes    |
+| Wednesday, November 27th| Spanish SL Paper 1                        | 11    | 7:45 am       | 9:00 am       | 1 hour 15 minutes    |
+|                       | Environmental System and Societies SL Paper 1| 11    | 10:15 am      | 11:15 am      | 1 hour               |
+|                       | Environmental System and Societies HL Paper 1| 11    | 10:15 am      | 12:15 pm      | 2 hours              |
+| Thursday, November 28th| Environmental System and Societies SL Paper 2| 11   | 7:45 am       | 9:45 am       | 2 hours              |
+|                       | Environmental System and Societies HL Paper 2| 11    | 7:45 am       | 10:15 am      | 2 hours 30 minutes   |
+|                       | Global Politics HL Paper 1                   | 11    | 11:00 am      | 12:15 pm      | 1 hour 15 minutes    |
+| Monday, December 2nd  | Mathematics: Analysis & Approaches HL Paper 1| 11    | 7:45 am       | 9:45 am       | 2 hours              |
+|                       | Mathematics: Analysis & Approaches SL Paper 1| 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | Mathematics: Applications & Interpretations P 1| 11   | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+| Tuesday, December 3rd | Mathematics: Analysis & Approaches HL Paper 2| 11    | 7:45 am       | 9:45 am       | 2 hours              |
+|                       | Mathematics: Analysis & Approaches SL Paper 2| 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | Mathematics: Applications & Interpretations P 2| 11   | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+| Monday, December 9th  | Philosophy SL/HL Paper 1                     | 11    | 7:45 am       | 8:45 am       | 1 hour               |
+|                       | Chemistry HL Paper 1                         | 11    | 10:00 am      | 12:00 pm      | 2 hours              |
+|                       | Chemistry SL Paper 1                         | 11    | 10:00 am      | 11:30 am      | 1 hour 30 minutes    |
+|                       | Computer Science P1 & P2                     | 11    | 10:00 am      | 2:00 pm       | 2 hours              |
+| Tuesday, December 10th | Chemistry Paper 2                          | 11    | 7:45 am       | 10:15 am      | 2 hours 30 minutes   |
+|                       | Chemistry SL Paper 2                         | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | Economics HL/SL Paper 1                     | 11    | 7:45 am       | 9:00 am       | 1 hour 15 minutes    |
+|                       | Design Technology P1 & 2                     | 11    | 10:00 am      | 11:30 am      | 1 hour 30 minutes    |
+| Wednesday, December 11th| Biology HL Paper 1                        | 11    | 7:45 am       | 9:45 am       | 2 hours              |
+|                       | Biology SL Paper 1                          | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
+|                       | Biology SL Paper 2                          | 11    | 10:15 am      | 11:45 am      | 1 hour 30 minutes    |
+ "
+Pleake keep in mind that only students in HL subjects participate in Paper 3 exams and that HL students don't take SL exams unless specified ("SL/HL") and that SL students don't take Hl exams unless specified ("SL/HL"). 
+
+After the example there will be a list if the subjects the student is taking, the student doesn’t take exams for other classes, they only do exams for the classes they take.
+
+Example: Classes the student is taking: " Math Analysis HL
+Business Management HL Computer Science HL
+English A SL
+Spanish A SL
+Physics SL "
+
+Your response:
+"
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Exam Schedule
+X-WR-TIMEZONE:America/Bogota
+BEGIN:VTIMEZONE
+TZID:America/Bogota
+BEGIN:STANDARD
+DTSTART:20230101T000000
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+
+BEGIN:VEVENT
+SUMMARY:English A SL Paper 2
+DTSTART;TZID=America/Bogota:20241125T074500
+DTEND;TZID=America/Bogota:20241125T091500
+DESCRIPTION:Duration: 1 hour 30 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Physics SL Paper 1
+DTSTART;TZID=America/Bogota:20241125T120000
+DTEND;TZID=America/Bogota:20241125T133000
+DESCRIPTION:Duration: 1 hour 30 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Physics SL Paper 2
+DTSTART;TZID=America/Bogota:20241126T074500
+DTEND;TZID=America/Bogota:20241126T091500
+DESCRIPTION:Duration: 1 hour 30 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Business HL Paper 2
+DTSTART;TZID=America/Bogota:20241126T100000
+DTEND;TZID=America/Bogota:20241126T114500
+DESCRIPTION:Duration: 1 hour 45 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Business HL Paper 3
+DTSTART;TZID=America/Bogota:20241126T130000
+DTEND;TZID=America/Bogota:20241126T141500
+DESCRIPTION:Duration: 1 hour 15 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Spanish SL Paper 1
+DTSTART;TZID=America/Bogota:20241127T074500
+DTEND;TZID=America/Bogota:20241127T090000
+DESCRIPTION:Duration: 1 hour 15 minutes
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Math Analysis HL Paper 1
+DTSTART;TZID=America/Bogota:20241202T074500
+DTEND;TZID=America/Bogota:20241202T094500
+DESCRIPTION:Duration: 2 hours
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Math Analysis HL Paper 2
+DTSTART;TZID=America/Bogota:20241203T074500
+DTEND;TZID=America/Bogota:20241203T094500
+DESCRIPTION:Duration: 2 hours
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Computer Science Paper 1
+DTSTART;TZID=America/Bogota:20241209T100000
+DTEND;TZID=America/Bogota:20241209T120000
+DESCRIPTION:Duration: 2 hours
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Computer Science Paper 2
+DTSTART;TZID=America/Bogota:20241209T100000
+DTEND;TZID=America/Bogota:20241209T140000
+DESCRIPTION:Duration: 4 hours
+END:VEVENT
+
+END:VCALENDAR
+"
+End example.
+
+These are the classes I participate in, I don't take the exams of any other subjects:
+
+`;
+            // Append the textarea to the body (required for it to work)
+            document.body.appendChild(textArea);
+            // Select the text
+            textArea.select();
+            // Execute the copy command
+            document.execCommand("copy");
+            // Remove the textarea from the document
+            document.body.removeChild(textArea);
+            // Optionally, alert the user that the text has been copied
+            alert("Text copied to clipboard!");
+        }
+
         function createICS() {
             const description = document.getElementById('eventDescription').value;
 
