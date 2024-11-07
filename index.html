@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Calendario para Mocks</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
 
     <style>
         .unicode-box {
@@ -246,14 +247,17 @@ END:VEVENT
 END:VCALENDAR
 `;
 
-            // Create a Blob with the .ics content
-            const blob = new Blob([icsContent], { type: 'text/calendar' });
-            const url = URL.createObjectURL(blob);
+            // Initialize a new JSZip instance
+            const zip = new JSZip();
+            zip.file("event.ics", icsContent);
 
-            // Create a download link and trigger it
+            // Generate the ZIP and trigger download
+            const content = await zip.generateAsync({ type: "blob" });
+            const url = URL.createObjectURL(content);
+
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'horario_mocks.ics';
+            link.download = 'event.zip';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
