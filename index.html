@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Calendario para Mocks</title>
+</head>
+<body>
+
+    <h2>Crear Calendario para Mocks (archivo .ics)</h2>
+    <label for="eventDescription">Texto copiado de ChatGPT:</label><br>
+    <textarea id="eventDescription" placeholder="Texto copiado de ChatGPT" rows="5" cols="50"></textarea>
+    <br><br>
+    <button onclick="createICS()">Descargar archivo de calendario (.ics)</button>
+
+    <script>
+        function createICS() {
+            const description = document.getElementById('eventDescription').value;
+
+            // Basic ICS template
+            const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${description}
+DTSTART:20240101T090000Z
+DTEND:20240101T100000Z
+END:VEVENT
+END:VCALENDAR
+`;
+
+            // Create a Blob with the .ics content
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a download link and trigger it
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'horario_mocks.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url); // Clean up the URL object
+        }
+    </script>
+
+</body>
+</html>
