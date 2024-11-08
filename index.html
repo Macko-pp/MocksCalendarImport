@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Calendario para Mocks</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
 
     <style>
         .unicode-box {
@@ -72,14 +71,14 @@ Copia lo que ChatGPT te escribio y pegalo en el area de texto abajo, y presiona 
     <br><br>
     <button onclick="createICS()">Descargar archivo de calendario (.ics)</button>
 
-    <p>El archivo que se descarga lo vas a abrir con tu app de calendario (si estas en celular, presiona el boton de compartir y selecciona tu app de calendario). Revisa que todo este bien y ya! Ahora tienes todos tus examenes Mock en tu calendario.</p>
+    <p>El archivo que se descarga lo vas a abrir con tu app de calendario. Revisa que todo este bien y ya! Ahora tienes todos tus examenes Mock en tu calendario.</p>
 
     <script>
         function copyToClipboard() {
             // Create a new textarea element
             const textArea = document.createElement("textarea");
             // Set the value of the textarea to the predetermined text
-            textArea.value = `Turn the following schedule into something I can copy-paste into a .ics file, my timezone is Bogota in 2024. Don't return anything else apart from the .icl file contents:  " | Date                  | Subjects                                      | Grade | Start         | Finish        | Duration           |
+            textArea.value = `Turn the following schedule into something I can copy-paste into a .ics file, my timezone is Bogota in 2024. Don't return anything else apart from the .icl file contents:"| Date                  | Subjects                                      | Grade | Start         | Finish        | Duration           |
 |-----------------------|-----------------------------------------------|-------|---------------|---------------|---------------------|
 | Monday, November 25th | English A: Language & Literature HL Paper 2  | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
 |                       | English A: Language & Literature SL Paper 2  | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
@@ -115,16 +114,16 @@ Copia lo que ChatGPT te escribio y pegalo en el area de texto abajo, y presiona 
 | Wednesday, December 11th| Biology HL Paper 1                        | 11    | 7:45 am       | 9:45 am       | 2 hours              |
 |                       | Biology SL Paper 1                          | 11    | 7:45 am       | 9:15 am       | 1 hour 30 minutes    |
 |                       | Biology SL Paper 2                          | 11    | 10:15 am      | 11:45 am      | 1 hour 30 minutes    |
- "
+"
 Pleake keep in mind that only students in HL subjects participate in Paper 3 exams and that HL students don't take SL exams unless specified ("SL/HL") and that SL students don't take Hl exams unless specified ("SL/HL"). 
 
 After the example there will be a list if the subjects the student is taking, the student doesn’t take exams for other classes, they only do exams for the classes they take.
 
-Example: Classes the student is taking: " Math Analysis HL
-Business Management HL Computer Science HL
+Example:Classes the student is taking:"Math Analysis HL
+Business Management HLComputer Science HL
 English A SL
 Spanish A SL
-Physics SL "
+Physics SL"
 
 Your response:
 "
@@ -247,17 +246,14 @@ END:VEVENT
 END:VCALENDAR
 `;
 
-            // Initialize a new JSZip instance
-            const zip = new JSZip();
-            zip.file("event.ics", icsContent);
+// Create a Blob with the .ics content
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
 
-            // Generate the ZIP and trigger download
-            const content = await zip.generateAsync({ type: "blob" });
-            const url = URL.createObjectURL(content);
-
+            // Create a download link and trigger it
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'event.zip';
+            link.download = 'horario_mocks.ics';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
